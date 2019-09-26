@@ -9,9 +9,12 @@
 static void swap_and_compare(memswap_fn impl, void *p1, void *p2, size_t count) {
 	uint32_t p1_crc = crc32buf(p1, count);
 	uint32_t p2_crc = crc32buf(p2, count);
+
 	/* make sure we're testing uneven boundaries */
 	assert((count % 2) != 0);
 	impl(p1, p2, count);
+
+	(void)p1_crc; (void)p2_crc;
 	assert(p1_crc == crc32buf(p2, count));
 	assert(p2_crc == crc32buf(p1, count));
 }
